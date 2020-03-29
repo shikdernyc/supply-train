@@ -13,6 +13,8 @@ async function run() {
 
   // alternative shortcut
   console.log(util.inspect(result, false, null, true /* enable colors */));
+
+  console.log('Made a change');
 }
 
 run();
