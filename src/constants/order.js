@@ -1,0 +1,5 @@
+export const orderItems = { VENTILATOR: 'VENTILATOR', MEDICAL_STAFF: 'MEDICAL STAFF' };
+
+export const orderTypes = { INCOMING: 'INCOMING', OUTGOING: 'OUTGOING' };
+
+export const orderStatuses = { IN_TRANSIT: 'IN TRANSIT', PENDING_SHIPMENT: 'PENDING SHIPMENT', COMPLETE: 'COMPLETE' };
