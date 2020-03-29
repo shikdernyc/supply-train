@@ -29,10 +29,7 @@ export function OrderProvider({ children }) {
   }
 
   function getOrdersInState(state) {
-    return (stateOrders.current[state[1]] || []).map(order => ({
-      ...order,
-      type: order.to === state[1] ? orderTypes.INCOMING : orderTypes.OUTGOING
-    }));
+    return stateOrders.current[state[1]] || [];
   }
 
   function getRecentOrders(count) {
