@@ -4,14 +4,17 @@ import { createBrowserHistory } from 'history';
 import {
   Router,
 } from 'react-router-dom';
-import AppRouter from 'router';
 import 'assets/css/material-dashboard-react.css';
+import { SettingsProvider } from 'contexts/Settings';
+import App from './App';
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
   <Router history={hist}>
-    <AppRouter />
+    <SettingsProvider>
+      <App />
+    </SettingsProvider>
   </Router>,
   document.getElementById('root'),
 );
