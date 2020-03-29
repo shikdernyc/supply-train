@@ -23,7 +23,7 @@ const useStyles = makeStyles(styles);
 
 export default function DashboardLayout({ children, ...rest }) {
   const classes = useStyles();
-  const currentState = useCurrentState();
+  const [, stateKey] = useCurrentState();
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -60,7 +60,7 @@ export default function DashboardLayout({ children, ...rest }) {
   return (
     <div className={classes.wrapper}>
       <Sidebar
-        routes={sidebarRoutes(currentState)}
+        routes={sidebarRoutes(stateKey)}
         logoText={APP_DISPLAY_NAME}
         logo={logo}
         image={bgImage}
