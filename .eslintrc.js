@@ -35,6 +35,7 @@ module.exports = {
     'no-underscore-dangle': 0,
     'react/require-default-props': 0,
     'react/forbid-prop-types': 0, // TOOD: REFACTOR TO PREVENT OBJECT
+    radix: 0,
   },
   settings: {
     'import/resolver': {
