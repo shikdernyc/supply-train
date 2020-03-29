@@ -12,7 +12,7 @@ import Menu from '@material-ui/icons/Menu';
 // core components
 import Button from 'components/Button';
 import styles from 'assets/jss/material-dashboard-react/components/headerStyle';
-import AdminNavbarLinks from './DashboardNavbarLinks';
+import StateSelect from './StateSelect';
 
 const useStyles = makeStyles(styles);
 
@@ -20,26 +20,23 @@ export default function Header(props) {
   const classes = useStyles();
   const { color, title } = props;
   const appBarClasses = classNames({
-    [` ${classes[color]}`]: color,
+    [` ${classes[color]}`]: color
   });
   return (
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button color="transparent" href="#" className={classes.title}>
+          <Button color='transparent' href='#' className={classes.title}>
             {title || <></>}
           </Button>
         </div>
-        <Hidden smDown implementation="css">
-          <AdminNavbarLinks />
+        <Hidden smDown implementation='css'>
+          {/* <AdminNavbarLinks /> */}
+          <StateSelect />
         </Hidden>
-        <Hidden mdUp implementation="css">
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={props.handleDrawerToggle}
-          >
+        <Hidden mdUp implementation='css'>
+          <IconButton color='inherit' aria-label='open drawer' onClick={props.handleDrawerToggle}>
             <Menu />
           </IconButton>
         </Hidden>
@@ -49,11 +46,11 @@ export default function Header(props) {
 }
 
 Header.defaultProps = {
-  title: null,
+  title: null
 };
 
 Header.propTypes = {
   color: PropTypes.oneOf(['primary', 'info', 'success', 'warning', 'danger']),
   handleDrawerToggle: PropTypes.func,
-  title: PropTypes.string,
+  title: PropTypes.string
 };
