@@ -4,11 +4,12 @@ import state from 'constants/state';
 
 const CurrentStateContext = createContext();
 
-export function CurrentStateProvider({ currentState, children }) {
+export function CurrentStateProvider({ stateKey, children }) {
   return (
     <CurrentStateContext.Provider
       value={{
-        currentState,
+        stateKey,
+        currentState: state[stateKey],
       }}
     >
       {children}
@@ -17,7 +18,7 @@ export function CurrentStateProvider({ currentState, children }) {
 }
 
 CurrentStateProvider.propTypes = {
-  currentState: PropTypes.oneOf(Object.keys(state)).isRequired,
+  stateKey: PropTypes.oneOf(Object.keys(state)).isRequired,
   children: PropTypes.node.isRequired,
 };
 

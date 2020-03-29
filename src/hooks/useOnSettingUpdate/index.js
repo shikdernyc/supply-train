@@ -5,12 +5,10 @@ export default function useOnSettingUpdate(fn) {
   const { onSettingChange, removeOnSettingChange } = useContext(SettingsContext);
   onSettingChange(fn);
 
-  useEffect(() => {
-    onSettingChange(fn);
-    return () => {
-      // CLEAN UPO
-      removeOnSettingChange(fn);
-    };
-    // eslint-disable-next-line
-  }, []);
+  useEffect(() => () => {
+    // CLEAN UPO
+    removeOnSettingChange(fn);
+  }
+  // eslint-disable-next-line
+  , []);
 }
