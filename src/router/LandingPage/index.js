@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import state from 'constants/state';
+import Settings from './Settings';
 
 const useStyles = makeStyles({
   option: {
@@ -83,6 +84,9 @@ function LandingPage() {
     }}
     >
       <h1>Hello Landing page</h1>
+      <div>
+        <Settings />
+      </div>
       <div>
         <StateSelector />
       </div>

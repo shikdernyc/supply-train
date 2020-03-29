@@ -21,14 +21,14 @@ export default function Input(props) {
     labelText,
     id,
     labelProps,
-    inputProps,
     error,
+    fullWidth,
     success,
+    ...inputProps
   } = props;
 
   const labelClasses = classNames({
     [` ${classes.labelRootError}`]: error,
-    [` ${classes.labelRootSuccess}`]: success && !error,
   });
   const underlineClasses = classNames({
     [classes.underlineError]: error,
@@ -38,11 +38,23 @@ export default function Input(props) {
   const marginTop = classNames({
     [classes.marginTop]: labelText === undefined,
   });
+
+  const formControlClassNames = `${classNames({
+    [classes.formControl]: true,
+  })} ${
+    (formControlProps && formControlProps.className)
+      ? formControlProps.className
+      : ''
+  }`;
+
+  const fcProps = {
+    ...formControlProps,
+    className: formControlClassNames,
+    fullWidth,
+  };
+
   return (
-    <FormControl
-      {...formControlProps}
-      className={`${formControlProps.className} ${classes.formControl}`}
-    >
+    <FormControl {...fcProps}>
       {labelText !== undefined ? (
         <InputLabel
           className={classes.labelRoot + labelClasses}
@@ -73,13 +85,15 @@ export default function Input(props) {
 
 Input.defaultPropTypes = {
   fullWidth: false,
+  formControlProps: {
+
+  },
 };
 
 Input.propTypes = {
   labelText: PropTypes.node,
   labelProps: PropTypes.object,
   id: PropTypes.string,
-  inputProps: PropTypes.object,
   formControlProps: PropTypes.object,
   error: PropTypes.bool,
   success: PropTypes.bool,
