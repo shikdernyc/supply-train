@@ -6,6 +6,7 @@ import useCurrentState from 'hooks/useCurrentState';
 import useOrderActions from 'hooks/useOrderActions';
 import { orderTypes } from 'constants/order';
 import { orderStatuses } from 'constants/order';
+import Button from 'components/Button';
 
 const styles = {
   cardCategoryWhite: {

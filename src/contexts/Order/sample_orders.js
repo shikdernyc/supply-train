@@ -40,7 +40,7 @@ export default [
   ...Object.keys(state).map((state, i) => ({
     id: 4 + i,
     item: orderItems.VENTILATOR,
-    type: orderTypes.OUTGOING,
+    type: orderTypes.INCOMING,
     to: state,
     from: state !== 'TX' ? 'TX' : 'VA',
     quantity: 5000,
@@ -62,7 +62,7 @@ export default [
   ...Object.keys(state).map((state, i) => ({
     id: 64 + i,
     item: orderItems.MEDICAL_STAFF,
-    type: orderTypes.INCOMING,
+    type: orderTypes.OUTGOING,
     to: state !== 'NY' ? 'NY' : 'NJ',
     from: state,
     quantity: 5000,
@@ -74,7 +74,7 @@ export default [
       })(),
       5
     ],
-    status: orderStatuses.COMPLETE,
+    status: i % 2 == 0 ? orderStatuses.COMPLETE : orderStatuses.PENDING_SHIPMENT,
     time_created: (() => {
       const d = new Date();
       d.setFullYear(new Date().getFullYear() - i);

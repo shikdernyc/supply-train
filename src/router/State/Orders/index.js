@@ -3,7 +3,7 @@ import React from 'react';
 import Grid from 'components/Grid';
 import { OrderProvider } from 'contexts/Order';
 import CurrentOrdersTable from './CurrentOrdersTable';
-import CompletedOrdersTable from './CompletedOrdersTable';
+import CompletedOrdersTable from './OrderHistoryTable';
 
 export default function TableList() {
   return (

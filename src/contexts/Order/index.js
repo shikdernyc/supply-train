@@ -1,6 +1,7 @@
 import React, { createContext, useState, useRef } from 'react';
 import { orderStatuses } from 'constants/order';
 import sample_orders from './sample_orders';
+import { orderTypes } from 'constants/order';
 
 const OrderContext = createContext();
 
@@ -16,15 +17,22 @@ export function OrderProvider({ children }) {
   }
 
   function shipOrder(id) {
-    allOrders.get(id).status = orderStatuses.IN_TRANSIT;
+    const orders = new Map(allOrders);
+    orders.get(id).status = orderStatuses.IN_TRANSIT;
+    setAllOrders(orders);
   }
 
   function confirmReceipt(id) {
-    allOrders.get(id).status = orderStatuses.COMPLETE;
+    const orders = new Map(allOrders);
+    orders.get(id).status = orderStatuses.COMPLETE;
+    setAllOrders(orders);
   }
 
   function getOrdersInState(state) {
-    return stateOrders.current[state];
+    return (stateOrders.current[state[1]] || []).map(order => ({
+      ...order,
+      type: order.to === state[1] ? orderTypes.INCOMING : orderTypes.OUTGOING
+    }));
   }
 
   function getRecentOrders(count) {

@@ -5,7 +5,9 @@ import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
 import useOrderActions from 'hooks/useOrderActions';
 import { orderTypes } from 'constants/order';
-import { orderStatuses } from 'constants/order';
+import { orderStatuses, orderStatusActions } from '../../../../constants/order';
+import Button from 'components/Button';
+import ActionButton from './ActionButton';
 
 const styles = {
   cardCategoryWhite: {
@@ -56,13 +58,13 @@ export default function(props) {
           tableHeaderColor='primary'
           tableHead={['Item', 'Order Type', 'From / To', 'Quantity', 'Expected By', 'Status', 'Action']}
           tableData={orders.map(order => [
-            String(order.item),
-            String(order.type),
+            order.item,
+            order.type,
             order.type === orderTypes.INCOMING ? order.from : order.to,
-            String(order.quantity),
-            `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
+            order.quantity,
+            `${console.log({ order }) || order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
             order.status,
-            ''
+            <ActionButton order={order} />
           ])}
         />
       </CardBody>
