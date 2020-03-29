@@ -1,13 +1,11 @@
-import React, { createContext, useState, useRef } from 'react';
+import React, { createContext, useState } from 'react';
 import { orderStatuses } from 'constants/order';
 import sample_orders from './sample_orders';
-import { orderTypes } from 'constants/order';
 
 const OrderContext = createContext();
 
 export function OrderProvider({ children }) {
   const [allOrders, setAllOrders] = useState(new Map(sample_orders.map(o => [o.id, o])));
-  const stateOrders = useRef(groupOrdersByState(allOrders));
 
   function addOrder(order) {
     const id = allOrders.size;
@@ -28,17 +26,8 @@ export function OrderProvider({ children }) {
     setAllOrders(orders);
   }
 
-  function getOrdersInState(state) {
-    return (stateOrders.current[state[1]] || []).map(order => ({
-      ...order,
-      type: order.to === state[1] ? orderTypes.INCOMING : orderTypes.OUTGOING
-    }));
-  }
-
-  function getRecentOrders(count) {
-    return Array.from(allOrders.values)
-      .sort((a, b) => b.time_created - a.time_created)
-      .slice(0, count);
+  function getAllOrders() {
+    return [...allOrders.values()];
   }
 
   return (
@@ -47,8 +36,7 @@ export function OrderProvider({ children }) {
         addOrder,
         shipOrder,
         confirmReceipt,
-        getOrdersInState,
-        getRecentOrders
+        getAllOrders
       }}
     >
       {children}
@@ -56,22 +44,22 @@ export function OrderProvider({ children }) {
   );
 }
 
-function groupOrdersByState(orders) {
-  const ordersByState = {};
-  orders.forEach(order => {
-    const { from, to } = order;
+// function groupOrdersByState(orders) {
+//   const ordersByState = {};
+//   orders.forEach(order => {
+//     const { from, to } = order;
 
-    if (!ordersByState[from]) {
-      ordersByState[from] = [];
-    }
-    if (!ordersByState[to]) {
-      ordersByState[to] = [];
-    }
+//     if (!ordersByState[from]) {
+//       ordersByState[from] = [];
+//     }
+//     if (!ordersByState[to]) {
+//       ordersByState[to] = [];
+//     }
 
-    ordersByState[from].push(order);
-    ordersByState[to].push(order);
-  });
-  return ordersByState;
-}
+//     ordersByState[from].push(order);
+//     ordersByState[to].push(order);
+//   });
+//   return ordersByState;
+// }
 
 export default OrderContext;

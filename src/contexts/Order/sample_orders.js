@@ -74,7 +74,7 @@ export default [
       })(),
       5
     ],
-    status: i % 2 == 0 ? orderStatuses.COMPLETE : orderStatuses.PENDING_SHIPMENT,
+    status: i % 2 === 0 ? orderStatuses.COMPLETE : orderStatuses.PENDING_SHIPMENT,
     time_created: (() => {
       const d = new Date();
       d.setFullYear(new Date().getFullYear() - i);

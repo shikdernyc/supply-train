@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from 'components/Table';
 import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
-import { orderTypes, orderStatuses } from 'constants/order';
-import { useStateOrders } from 'hooks/useOrders';
+import { orderTypes } from 'constants/order';
+import ActionButton from 'components/ActionButton';
+import { useRecentStateOrders } from 'hooks/useOrders';
 import { getTransitType } from 'utils/order/getPerspectiveProps';
 import { getTransactionalState } from 'utils/order/getPerspectiveProps';
 
@@ -43,24 +44,26 @@ const useStyles = makeStyles(styles);
 export default function(props) {
   const classes = useStyles();
   const state = useCurrentState();
-  const orders = useStateOrders(state).filter(order => order.status === orderStatuses.COMPLETE);
+  const orders = useRecentStateOrders(state, 5);
 
   return (
     <Card>
-      <CardHeader color='info'>
-        <h4 className={classes.cardTitleWhite}>Order History</h4>
-        <p className={classes.cardCategoryWhite}>Your history of completed shipments</p>
+      <CardHeader color='primary'>
+        <h4 className={classes.cardTitleWhite}>Pending Actions</h4>
+        <p className={classes.cardCategoryWhite}>These items need your attention</p>
       </CardHeader>
       <CardBody>
         <Table
-          tableHeaderColor='info'
-          tableHead={['Item', 'Order Type', 'From / To', 'Quantity', 'Delivered On']}
+          tableHeaderColor='primary'
+          tableHead={['Item', 'Order Type', 'From / To', 'Quantity', 'Expected By', 'Status', 'Action']}
           tableData={orders.map(order => [
             order.item,
             getTransitType(state, order),
             getTransactionalState(state, order),
             order.quantity,
-            order.expected_by[0].toLocaleDateString()
+            `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
+            order.status,
+            <ActionButton order={order} />
           ])}
         />
       </CardBody>
