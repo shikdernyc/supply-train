@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'components/Router';
 import { RouteProvider } from 'contexts/Router';
 import Error from './Error';
 import LandingPage from './LandingPage';
-import Dashboard from './Dashboard';
+import State from './State';
 
 function RootRouter() {
   return (
@@ -17,7 +17,7 @@ function RootRouter() {
 function Router() {
   return (
     <Switch>
-      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/state/:stateId" component={State} />
       <Route path="/error" component={Error} />
       <Route path="/" component={RootRouter} />
     </Switch>
