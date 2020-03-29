@@ -16,7 +16,7 @@ function DashboardRouter({
   },
 }) {
   return (
-    <CurrentStateProvider currentState={stateId}>
+    <CurrentStateProvider stateKey={stateId}>
       <DashboardLayout>
         <Switch>
           <Route
