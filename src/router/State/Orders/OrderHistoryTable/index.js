@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from 'components/Table';
 import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
-import useOrderActions from 'hooks/useOrderActions';
-import { orderTypes } from 'constants/order';
-import { orderStatuses } from 'constants/order';
-import Button from 'components/Button';
+import { orderTypes, orderStatuses } from 'constants/order';
+import { useStateOrders } from 'hooks/useOrders';
+import { getTransitType } from 'utils/order/getPerspectiveProps';
+import { getTransactionalState } from 'utils/order/getPerspectiveProps';
 
 const styles = {
   cardCategoryWhite: {
@@ -43,24 +43,23 @@ const useStyles = makeStyles(styles);
 export default function(props) {
   const classes = useStyles();
   const state = useCurrentState();
-  const { getOrdersInState } = useOrderActions();
-  const orders = getOrdersInState(state).filter(order => order.status === orderStatuses.COMPLETE);
+  const orders = useStateOrders(state).filter(order => order.status === orderStatuses.COMPLETE);
 
   return (
     <Card>
-      <CardHeader color='primary'>
+      <CardHeader color='info'>
         <h4 className={classes.cardTitleWhite}>Order History</h4>
         <p className={classes.cardCategoryWhite}>Your history of completed shipments</p>
       </CardHeader>
       <CardBody>
         <Table
-          tableHeaderColor='primary'
+          tableHeaderColor='info'
           tableHead={['Item', 'Order Type', 'From / To', 'Quantity', 'Delivered On']}
           tableData={orders.map(order => [
-            String(order.item),
-            String(order.type),
-            order.type === orderTypes.INCOMING ? order.from : order.to,
-            String(order.quantity),
+            order.item,
+            getTransitType(state, order),
+            getTransactionalState(state, order),
+            order.quantity,
             order.expected_by[0].toLocaleDateString()
           ])}
         />

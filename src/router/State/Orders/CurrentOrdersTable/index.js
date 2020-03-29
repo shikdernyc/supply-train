@@ -3,10 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from 'components/Table';
 import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
-import useOrderActions from 'hooks/useOrderActions';
 import { orderTypes } from 'constants/order';
-import { orderStatuses, orderStatusActions } from '../../../../constants/order';
+import { orderStatuses } from '../../../../constants/order';
 import ActionButton from 'components/ActionButton';
+import { useStateOrders } from 'hooks/useOrders';
+import { getTransitType } from 'utils/order/getPerspectiveProps';
+import { getTransactionalState } from 'utils/order/getPerspectiveProps';
 
 const styles = {
   cardCategoryWhite: {
@@ -43,23 +45,22 @@ const useStyles = makeStyles(styles);
 export default function(props) {
   const classes = useStyles();
   const state = useCurrentState();
-  const { getOrdersInState } = useOrderActions();
-  const orders = getOrdersInState(state).filter(order => order.status !== orderStatuses.COMPLETE);
+  const orders = useStateOrders(state).filter(order => order.status !== orderStatuses.COMPLETE);
 
   return (
     <Card>
-      <CardHeader color='primary'>
+      <CardHeader color='success'>
         <h4 className={classes.cardTitleWhite}>Current Orders</h4>
         <p className={classes.cardCategoryWhite}>Here is a subtitle for this table</p>
       </CardHeader>
       <CardBody>
         <Table
-          tableHeaderColor='primary'
+          tableHeaderColor='success'
           tableHead={['Item', 'Order Type', 'From / To', 'Quantity', 'Expected By', 'Status', 'Action']}
           tableData={orders.map(order => [
             order.item,
-            order.type,
-            order.type === orderTypes.INCOMING ? order.from : order.to,
+            getTransitType(state, order),
+            getTransactionalState(state, order),
             order.quantity,
             `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
             order.status,

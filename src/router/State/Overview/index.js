@@ -9,19 +9,11 @@ import Store from '@material-ui/icons/Store';
 import Warning from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
 import DateRange from '@material-ui/icons/DateRange';
-import LocalOffer from '@material-ui/icons/LocalOffer';
-import Update from '@material-ui/icons/Update';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import AccessTime from '@material-ui/icons/AccessTime';
 import Accessibility from '@material-ui/icons/Accessibility';
-import BugReport from '@material-ui/icons/BugReport';
-import Code from '@material-ui/icons/Code';
-import Cloud from '@material-ui/icons/Cloud';
 // core components
 import Grid from 'components/Grid';
-import Table from 'components/Table';
-import Tasks from 'components/Tasks';
-import CustomTabs from 'components/Tabs';
 import { Danger, Info } from 'components/Typography';
 import Card, { CardHeader, CardIcon, CardBody, CardFooter } from 'components/Card';
 import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle';
@@ -29,22 +21,6 @@ import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 import { dailySalesChart, emailsSubscriptionChart, completedTasksChart } from './charts';
 import PendingActionsTable from './PendingActionsTable';
 import { OrderProvider } from 'contexts/Order';
-
-const bugs = [
-  'Sign contract for "What are conference organizers afraid of?"',
-  'Lines From Great Russian Literature? Or E-mails From My Boss?',
-  'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-  'Create 4 Invisible User Experiences you Never Knew About'
-];
-const website = [
-  'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-  'Sign contract for "What are conference organizers afraid of?"'
-];
-const server = [
-  'Lines From Great Russian Literature? Or E-mails From My Boss?',
-  'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-  'Sign contract for "What are conference organizers afraid of?"'
-];
 
 const useStyles = makeStyles(styles);
 
