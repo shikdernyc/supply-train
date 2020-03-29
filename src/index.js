@@ -16,5 +16,5 @@ ReactDOM.render(
       <App />
     </SettingsProvider>
   </Router>,
-  document.getElementById('root'),
+  document.getElementById('root')
 );
