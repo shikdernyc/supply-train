@@ -62,7 +62,7 @@ export default function(props) {
             order.type,
             order.type === orderTypes.INCOMING ? order.from : order.to,
             order.quantity,
-            `${console.log({ order }) || order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
+            `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
             order.status,
             <ActionButton order={order} />
           ])}
