@@ -4,6 +4,8 @@ import {
   useCurrentStateNewCases,
   useCurrentStateActiveCases,
   useCurrentStateCriticalCases,
+  useCurrentStateVentilators,
+  useCurrentStateIncomingVentilators,
 } from 'hooks/useCurrentStateData';
 import Input from 'components/Input';
 import Button from 'components/Button';
@@ -13,8 +15,14 @@ function StateDataPage() {
   const totalCases = useCurrentStateTotalCases();
   const newCases = useCurrentStateNewCases();
   const activeCases = useCurrentStateActiveCases();
+  const incomingVentilators = useCurrentStateIncomingVentilators();
+
+  const [ventilators, setVentilators] = useCurrentStateVentilators();
   const [criticalCases, setCriticalCases] = useCurrentStateCriticalCases();
+
   const [updatedCritical, handleUpdatedCriticalChange] = useInputState(criticalCases);
+  const [updatedVentialtors, handleUpdateVentilators] = useInputState(ventilators);
+
   return (
     <div>
       <h3>
@@ -30,6 +38,10 @@ function StateDataPage() {
         {activeCases}
       </h3>
       <h3>
+        Incoming Ventilators:
+        {incomingVentilators}
+      </h3>
+      <h3>
         Critical Cases:
         {criticalCases}
       </h3>
@@ -42,6 +54,24 @@ function StateDataPage() {
         />
         <Button onClick={() => {
           setCriticalCases(updatedCritical);
+        }}
+        >
+          Update
+        </Button>
+      </div>
+      <h3>
+        Total Ventilators:
+        {ventilators}
+      </h3>
+      <div>
+        <Input
+          labelText="Set New Critical"
+          type="number"
+          value={updatedVentialtors}
+          onChange={handleUpdateVentilators}
+        />
+        <Button onClick={() => {
+          setVentilators(updatedVentialtors);
         }}
         >
           Update
