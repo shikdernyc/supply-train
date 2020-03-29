@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import useSettings from 'hooks/useSettings';
 import { getAllStateCasesData } from 'services/covid19';
 import PropTypes from 'prop-types';
+import { getRandomInt } from 'utils/math/getRandomInt';
 
 const StateDataContext = createContext();
 
@@ -12,6 +13,8 @@ export function StateDataProvider({ children }) {
   const [criticalCases, setCriticalCases] = useState({});
   const [activeCases, setActiveCases] = useState({});
   const [locations, setLocations] = useState({});
+  const [ventilators, setVentilators] = useState({});
+  const [incomingVentilators, setIncomingVentilators] = useState({});
   const settings = useSettings();
 
   useEffect(() => {
@@ -24,6 +27,8 @@ export function StateDataProvider({ children }) {
       const updatedActiveCases = {};
       const updatedCriticalCases = {};
       const updatedInitialLocations = {};
+      const updatedVentilators = {};
+      const updatedIncomingVentilators = {};
       // POPULATE EACH COLUMN
       const states = Object.keys(stateData);
       states.forEach((stateName) => {
@@ -33,6 +38,8 @@ export function StateDataProvider({ children }) {
         updatedActiveCases[stateName] = data.activeCases;
         updatedCriticalCases[stateName] = parseInt(data.totalCases * criticalToTotalPercentage);
         updatedInitialLocations[stateName] = [0, 0];
+        updatedVentilators[stateName] = getRandomInt(updatedCriticalCases[stateName] * 3);
+        updatedIncomingVentilators[stateName] = 0;
       });
       // UPDATING STATES
       setTotalCases(updatedTotal);
@@ -40,6 +47,8 @@ export function StateDataProvider({ children }) {
       setCriticalCases(updatedCriticalCases);
       setActiveCases(updatedActiveCases);
       setLocations(updatedInitialLocations);
+      setVentilators(updatedVentilators);
+      setIncomingVentilators(updatedIncomingVentilators);
     }
 
     updateInitialStates();
@@ -66,17 +75,37 @@ export function StateDataProvider({ children }) {
     notifySubscribers(state, prevCases, newCritCases);
   };
 
+  const setStateVentilators = (state, newTotal) => {
+    setVentilators({
+      ...ventilators,
+      [state]: newTotal,
+    });
+  };
+
+  const setStateIncomingVentilators = (state, newTotal) => {
+    setIncomingVentilators({
+      ...incomingVentilators,
+      [state]: newTotal,
+    });
+  };
+
   const values = {
+    // DATA
     totalCases,
     newCases,
     criticalCases,
     activeCases,
     locations,
+    ventilators,
+    incomingVentilators,
+    // ACTIONS
     setStateCriticalCase,
+    setStateVentilators,
+    setStateIncomingVentilators,
+    // LISTENERS
     onCriticalCaseChange,
     removeOnCriticalCaseChange,
   };
-
 
   // =============== RENDER ===============
   return (
