@@ -5,13 +5,29 @@ import sample_orders from './sample_orders';
 const OrderContext = createContext();
 
 export function OrderProvider({ children }) {
-  const [allOrders, setAllOrders] = useState(new Map(sample_orders.map(o => [o.id, o])));
+  const [allOrders, setAllOrders] = useState(new Map(sample_orders.map((o) => [o.id, o])));
+
+  // SUBSCRIBERS
+  const orderSubscribers = new Set([]);
+  const subscribeToAddOrder = (fn) => {
+    orderSubscribers.add(fn);
+  };
+  const unsubscribeToAddOrder = (fn) => {
+    orderSubscribers.delete(fn);
+  };
+  const notifyOrderCreateSubscriber = (newOrder) => {
+    Array.from(orderSubscribers).forEach((subscriber) => subscriber(newOrder));
+  };
 
   function addOrder(order) {
     const id = allOrders.size;
     const orders = new Map(allOrders);
+    const newOrder = { ...order };
+    newOrder.status = orderStatuses.PENDING_SHIPMENT;
+    newOrder.time_created = new Date();
     orders.set(id, order);
     setAllOrders(orders);
+    notifyOrderCreateSubscriber(newOrder);
   }
 
   function shipOrder(id) {
@@ -36,7 +52,9 @@ export function OrderProvider({ children }) {
         addOrder,
         shipOrder,
         confirmReceipt,
-        getAllOrders
+        getAllOrders,
+        subscribeToAddOrder,
+        unsubscribeToAddOrder,
       }}
     >
       {children}
