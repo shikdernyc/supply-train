@@ -1,9 +1,6 @@
 import React from 'react';
 import Icon from '@material-ui/core/Icon';
 import { useCurrentStateNewCases } from 'hooks/useCurrentStateData';
-import Input from 'components/Input';
-import Button from 'components/Button';
-import useInputState from 'hooks/useInputState';
 import DataCard from '../DataCard';
 
 export default function() {
