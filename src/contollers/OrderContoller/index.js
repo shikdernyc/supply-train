@@ -5,16 +5,17 @@ import useOrderActions from 'hooks/useOrderActions';
 import StateDataContext from 'contexts/StateData';
 import state from 'constants/state';
 import { orderItems } from 'constants/order';
-
+import useIsSetupComplete from 'hooks/useIsSetupComplete';
 
 const stateToKey = {};
 Object.keys(state).forEach((stateKey) => {
   stateToKey[[state[stateKey]]] = stateKey;
 });
 
-function OrderController() {
+function useOrderController() {
   const [projectedCritical, setProjectedCritical] = useState(null);
-
+  const [criticalStateQueue, setCriticalStateQueue] = useState([]);
+  const setupCompleted = useIsSetupComplete();
   const {
     totalCases,
     newCases,
@@ -22,10 +23,10 @@ function OrderController() {
     // activeCases,
     ventilators,
     incomingVentilators,
-    setStateVentilators,
     setStateIncomingVentilators,
+    bulkSetStateVentilators,
   } = useContext(StateDataContext);
-  const { addOrder } = useOrderActions();
+  const { addBulkOrders } = useOrderActions();
   const settings = useSettings();
 
   // ============================ HELPERS ============================
@@ -43,7 +44,7 @@ function OrderController() {
     return parseInt(projectedTotal * criticalPercentage);
   };
 
-  const getStatesTotalVentilators = (stateName) => ventilators[stateName] + incomingVentilators[stateName];
+  const getStatesTotalVentilators = (stateName) => ventilators[stateName] + (incomingVentilators[stateName] || 0);
 
   const getSortedStateVentilators = () => {
     const sortedVentilators = Object.keys(ventilators).map((stateName) => ({
@@ -55,7 +56,7 @@ function OrderController() {
   };
 
   function createAnOrder(from, to, quantity) {
-    addOrder({
+    return ({
       to,
       from,
       quantity,
@@ -65,6 +66,8 @@ function OrderController() {
   }
 
   const orderVentilatorsForState = (stateName, total) => {
+    const orderList = [];
+    const ventilatorUpdateList = [];
     let required = total;
     const targetStateKey = stateToKey[stateName];
     const sortedVentilators = getSortedStateVentilators();
@@ -78,19 +81,26 @@ function OrderController() {
       if (totalStateVentilators > stateProjectedCrit) {
         const currentStateKey = stateToKey[stateData.name];
         if (totalStateVentilators > required) {
-          createAnOrder(currentStateKey, targetStateKey, required);
+          orderList.push(createAnOrder(currentStateKey, targetStateKey, required));
           required = 0;
-          setStateVentilators(stateData.name, ventilators[stateData.name] - required);
+          ventilatorUpdateList.push({
+            name: stateData.name,
+            newTotal: ventilators[stateData.name] - required,
+          });
           break;
         } else {
           const excess = totalStateVentilators - stateProjectedCrit;
-          setStateVentilators(stateData.name, ventilators[stateData.name] - excess);
-          createAnOrder(currentStateKey, targetStateKey, excess);
+          ventilatorUpdateList.push({
+            name: stateData.name,
+            newTotal: ventilators[stateData.name] - excess,
+          });
+          orderList.push(createAnOrder(currentStateKey, targetStateKey, excess));
           required -= excess;
         }
       }
     }
-
+    bulkSetStateVentilators(ventilatorUpdateList);
+    addBulkOrders(orderList);
     setStateIncomingVentilators(stateName, total - required);
   };
 
@@ -98,15 +108,34 @@ function OrderController() {
 
   useEffect(() => {
     const stateKeys = Object.keys(criticalCases);
-    if (projectedCritical === null && stateKeys.length > 0) {
+    if (setupCompleted) {
       // INITIAL STATE SET
+      const stateRequiresVentilators = [];
       const updatedProjections = {};
       stateKeys.forEach((stateName) => {
-        updatedProjections[stateName] = calcCritcalProjectedForState(stateName);
+        const stateProjected = calcCritcalProjectedForState(stateName);
+        const currentVentilators = getStatesTotalVentilators(stateName);
+        console.log(`${stateName}: ${currentVentilators} --> ${stateProjected}`);
+        updatedProjections[stateName] = stateProjected;
+        if (currentVentilators < stateProjected) {
+          stateRequiresVentilators.push({
+            stateName,
+            orderCount: stateProjected - currentVentilators,
+          });
+        }
       });
+      setCriticalStateQueue(stateRequiresVentilators);
       setProjectedCritical(updatedProjections);
     }
-  }, [criticalCases]);
+  }, [setupCompleted]);
+
+  useEffect(() => {
+    if (projectedCritical) {
+      criticalStateQueue.forEach(({ stateName, orderCount }) => {
+        orderVentilatorsForState(stateName, orderCount);
+      });
+    }
+  }, [projectedCritical]);
 
   useOnCriticalCaseChange((state, prevCritCase, newCritCase) => {
     const updatedProjection = calcCritcalProjectedForState(state, newCritCase);
@@ -116,7 +145,7 @@ function OrderController() {
     }
   });
 
-  return <></>;
+  // return <></>;
 }
 
-export default OrderController;
+export default useOrderController;
