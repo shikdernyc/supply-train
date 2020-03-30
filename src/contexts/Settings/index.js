@@ -7,6 +7,7 @@ const defaultSettings = {
   ventilatorToIcuPercentage: 0.3,
   shipmentDelayInSec: 20,
   criticalToTotalPercentage: 0.1,
+  projectedTimeline: 2,
 };
 
 export function SettingsProvider({ children }) {
