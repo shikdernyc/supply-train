@@ -5,13 +5,11 @@ import ChartistGraph from 'react-chartist';
 import { makeStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
-import Store from '@material-ui/icons/Store';
 import Warning from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
 import DateRange from '@material-ui/icons/DateRange';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import AccessTime from '@material-ui/icons/AccessTime';
-import Accessibility from '@material-ui/icons/Accessibility';
 // core components
 import Grid from 'components/Grid';
 import { Danger, Info } from 'components/Typography';
@@ -157,7 +155,7 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <DateRange /> For current 12 month period
               </div>
             </CardFooter>
           </Card>
@@ -179,7 +177,7 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <AccessTime /> For the next 56hrs
               </div>
             </CardFooter>
           </Card>

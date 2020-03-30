@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from 'components/Grid';
 import Card, { CardHeader, CardIcon, CardFooter } from 'components/Card';
 import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 
