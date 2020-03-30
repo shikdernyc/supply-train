@@ -31,9 +31,9 @@ export default function Dashboard() {
       <Grid container>
         <Grid item xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color='warning' stats icon>
-              <CardIcon color='warning'>
-                <Icon>content_copy</Icon>
+            <CardHeader color='info' stats icon>
+              <CardIcon color='info'>
+                <Icon>person</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Total Cases</p>
               <h3 className={classes.cardTitle}>8000</h3>
@@ -44,7 +44,7 @@ export default function Dashboard() {
                   <Warning />
                 </Danger>
                 <a href='#pablo' onClick={e => e.preventDefault()}>
-                  Get more space
+                  Up 4%
                 </a>
               </div>
             </CardFooter>
@@ -52,9 +52,9 @@ export default function Dashboard() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color='success' stats icon>
-              <CardIcon color='success'>
-                <Store />
+            <CardHeader color='warning' stats icon>
+              <CardIcon color='warning'>
+                <Icon>person</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Active Cases</p>
               <h3 className={classes.cardTitle}>4,245</h3>
@@ -69,9 +69,9 @@ export default function Dashboard() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color='danger' stats icon>
-              <CardIcon color='danger'>
-                <Icon>info_outline</Icon>
+            <CardHeader color='warning' stats icon>
+              <CardIcon color='warning'>
+                <Icon>group_add</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>New Cases</p>
               <h3 className={classes.cardTitle}>100</h3>
@@ -90,9 +90,9 @@ export default function Dashboard() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Card>
-            <CardHeader color='info' stats icon>
-              <CardIcon color='info'>
-                <Accessibility />
+            <CardHeader color='success' stats icon>
+              <CardIcon color='success'>
+                <Icon>assignment_late</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Supplies Sent</p>
               <h3 className={classes.cardTitle}>4500</h3>
@@ -124,12 +124,12 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
+              <h4 className={classes.cardTitle}>Supplies Sent</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                 </span>{' '}
-                increase in today sales.
+                increase in supply traffic.
               </p>
             </CardBody>
             <CardFooter chart>
@@ -152,8 +152,8 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}>New Cases</h4>
+              <p className={classes.cardCategory}>Projected based on rate of growth</p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
@@ -174,8 +174,8 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}>Delivery Schedule</h4>
+              <p className={classes.cardCategory}>Incoming and outgoing shipments</p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
