@@ -1,94 +1,86 @@
-import React, { useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Button from 'components/Button';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import state from 'constants/state';
-import Settings from './Settings';
+import logo from 'assets/img/reactlogo.png';
+import dashboardStyles from 'assets/jss/material-dashboard-react/layouts/adminStyle';
+import { Grid } from '@material-ui/core';
+import state, { STATE_LOCATION } from 'constants/state';
+import { APP_DISPLAY_NAME } from 'constants/app';
+import Sidebar from './Sidebar';
 
-const useStyles = makeStyles({
-  option: {
-    fontSize: 15,
-    '& > span': {
-      marginRight: 10,
-      fontSize: 18,
+import StateMap from './StateMap';
+
+const useStyles = makeStyles((theme) => {
+  const preStyles = dashboardStyles(theme);
+  return ({
+    ...preStyles,
+    mainPanel: {
+      ...preStyles.mainPanel,
+      minHeight: '100%',
     },
-  },
+    content: {
+      marginTop: 0,
+      paddingTop: 0,
+      height: '100%',
+    },
+  });
 });
 
-function StateSelector() {
-  const classes = useStyles();
-  const history = useHistory();
-
-  const options = useMemo(() => Object.keys(state).map((stateKey) => ({
-    code: stateKey,
-    label: state[stateKey],
-  })), []);
-
-  const [selectedState, setSelectedState] = useState(options[0]);
-
-  return (
-    <div>
-      <Autocomplete
-        style={{ width: 300 }}
-        options={options}
-        classes={{
-          option: classes.option,
-        }}
-        value={selectedState}
-        onChange={(event, newValue) => {
-          setSelectedState(newValue);
-        }}
-        autoHighlight
-        getOptionLabel={(option) => option.label}
-        renderOption={(option) => (
-          <>
-            {option.code}
-            {' - '}
-            {option.label}
-          </>
-        )}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Choose your state"
-            variant="outlined"
-            inputProps={{
-              ...params.inputProps,
-            // autoComplete: 'new-password', // disable autocomplete and autofill
-            }}
-          />
-        )}
-      />
-      <Button
-        color="primary"
-        onClick={() => {
-          history.push(`/state/${selectedState.code}`);
-        }}
-      >
-        Dashboard
-      </Button>
-    </div>
-  );
-}
+const stateInfo = {};
+Object.keys(state).forEach((stateKey) => {
+  const stateLabel = state[stateKey];
+  stateInfo[stateKey] = {
+    label: stateLabel,
+    latitude: STATE_LOCATION[stateLabel].latitude,
+    longitude: STATE_LOCATION[stateLabel].longitude,
+  };
+});
 
 function LandingPage() {
+  const classes = useStyles();
+  const [activeStateKey, setActiveStateKey] = useState(null);
+
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      height: '100vh',
-    }}
-    >
-      <h1>Hello Landing page</h1>
-      <div>
-        <Settings />
-      </div>
-      <div>
-        <StateSelector />
+    <div className={classes.wrapper}>
+      <Sidebar
+        logoText={APP_DISPLAY_NAME}
+        stateInfo={stateInfo}
+        activeStateKey={activeStateKey}
+        setActiveStateKey={setActiveStateKey}
+        logo={logo}
+        color="blue"
+        bgColor="black"
+        open={false}
+      />
+      <div className={classes.mainPanel}>
+        <Grid
+          container
+          direction="column"
+          alignItems="stretch"
+        >
+          <Grid
+            container
+            direction="row"
+            style={{ height: '75vh' }}
+            space={0}
+            alignItems="stretch"
+          >
+            <Grid item xs={12}>
+              <StateMap
+                stateInfo={stateInfo}
+                activeStateKey={activeStateKey}
+                setActiveStateKey={setActiveStateKey}
+              />
+            </Grid>
+            {/* <Grid item xs={3}>
+              <h1>Info</h1>
+            </Grid> */}
+          </Grid>
+          <Grid item style={{ height: '25vh', backgroundColor: 'gray' }}>
+            <div>
+              <h1>Recent Orders</h1>
+            </div>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
