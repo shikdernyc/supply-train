@@ -15,6 +15,7 @@ export function StateDataProvider({ children }) {
   const [activeCases, setActiveCases] = useState({});
   const [ventilators, setVentilators] = useState({});
   const [incomingVentilators, setIncomingVentilators] = useState({});
+  const [loading, setLoading] = useState(true);
   const settings = useSettings();
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export function StateDataProvider({ children }) {
       setActiveCases(updatedActiveCases);
       setVentilators(updatedVentilators);
       setIncomingVentilators(updatedIncomingVentilators);
+      setLoading(false);
     }
 
     updateInitialStates();
@@ -81,6 +83,14 @@ export function StateDataProvider({ children }) {
     });
   };
 
+  const bulkSetStateVentilators = (list) => {
+    const newVentilatorList = { ...ventilators };
+    list.forEach(({ name, newTotal }) => {
+      newVentilatorList[name] = newTotal;
+    });
+    setVentilators(newVentilatorList);
+  };
+
   const setStateIncomingVentilators = (targetState, newTotal) => {
     setIncomingVentilators({
       ...incomingVentilators,
@@ -90,6 +100,7 @@ export function StateDataProvider({ children }) {
 
   const values = {
     // DATA
+    loading,
     totalCases,
     newCases,
     criticalCases,
@@ -99,6 +110,7 @@ export function StateDataProvider({ children }) {
     // ACTIONS
     setStateCriticalCase,
     setStateVentilators,
+    bulkSetStateVentilators,
     setStateIncomingVentilators,
     // LISTENERS
     onCriticalCaseChange,
