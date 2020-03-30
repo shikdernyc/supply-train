@@ -1,28 +1,35 @@
 import React from 'react';
 import AppRouter from 'router';
 import useOnSettingUpdate from 'hooks/useOnSettingUpdate';
-import useOnCriticalCaseChange from 'hooks/useOnCriticalCaseChange';
 import { StateDataProvider } from 'contexts/StateData';
-
-function OrderController() {
-  useOnCriticalCaseChange((state, prevCritCase, newCritCase) => {
-    console.log(`${state} changed their critical cases from ${prevCritCase} to ${newCritCase}`);
-  });
-
-  return <></>;
-}
+import { OrderProvider } from 'contexts/Order';
+import OrderController from 'contollers/OrderContoller';
+import useOnOrderCreate from 'hooks/useOnOrderCreate';
 
 function App() {
   useOnSettingUpdate(() => {
     console.log('setting updated');
   });
 
+  useOnOrderCreate((order) => {
+    console.log(order);
+  });
+
   return (
-    <StateDataProvider>
+    <>
       <OrderController />
       <AppRouter />
-    </StateDataProvider>
+    </>
   );
 }
 
-export default App;
+export default function AppWrapper(props) {
+  return (
+    <StateDataProvider>
+      <OrderProvider>
+        <App {...props} />
+        <AppRouter />
+      </OrderProvider>
+    </StateDataProvider>
+  );
+}
