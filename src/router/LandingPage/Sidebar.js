@@ -19,51 +19,58 @@ const useStyles = makeStyles(styles);
 
 const SidebarLink = ({
   name,
-  to,
   color,
-  icon: LinkIcon
+  isActive,
+  onClick
 }) =>{
   const classes = useStyles()
-  const isActive = useRouteMatch(to)
   const listItemClasses = classNames({
     [" " + classes[color]]: isActive
   });
   const whiteFontClasses = classNames({
     [" " + classes.whiteFont]: isActive
-  });
+  }); 
+  const linkClasses = classNames({
+    [classes.item]: true,
+    ["active"]: isActive
+  })
 
   return (
-    <NavLink
-      to={to}
-      className={classes.item}
-      activeClassName="active"
+    <a
+      href="#"
+      className={linkClasses}
+      onClick={(e)=>{
+        e.preventDefault()
+        onClick()
+      }}
     >
       <ListItem button className={classes.itemLink + listItemClasses}>
-        <LinkIcon
-          className={classNames(classes.itemIcon, whiteFontClasses)}
-        />
         <ListItemText
           primary={name}
           className={classNames(classes.itemText, whiteFontClasses)}
           disableTypography={true}
         />
       </ListItem>
-    </NavLink>
+    </a>
   )
 
 }
 
 export default function Sidebar(props) {
   const classes = useStyles();
-  // verifies if routeName is the one active (in browser input)
-  function activeRoute(routeName) {
-    return window.location.href.indexOf(routeName) > -1 ? true : false;
-  }
-  const { color, logo, image, logoText, routes, bgColor } = props;
+  const { color, logo, image, logoText, stateInfo, activeStateKey, setActiveStateKey, bgColor,  } = props;
   var links = (
     <List className={classes.list}>
-      {routes.map((navItem, key) => (
-        <SidebarLink key={key} name={navItem.name} to={navItem.to} icon={navItem.icon} color={color} />
+      {Object.keys(stateInfo).map((stateKey, key) => (
+        <SidebarLink
+          key={key}
+          name={stateInfo[stateKey].label} 
+          isActive={activeStateKey === stateKey} 
+          color={color}
+          onClick={()=>{
+            setActiveStateKey(stateKey)
+          }}
+        />
       ))}
     </List>
   );
