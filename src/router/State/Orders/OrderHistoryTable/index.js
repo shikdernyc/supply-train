@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from 'components/Table';
 import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
-import { orderTypes, orderStatuses } from 'constants/order';
+import { orderStatuses } from 'constants/order';
 import { useStateOrders } from 'hooks/useOrders';
 import { getTransitType } from 'utils/order/getPerspectiveProps';
 import { getTransactionalState } from 'utils/order/getPerspectiveProps';
@@ -54,14 +54,19 @@ export default function(props) {
       <CardBody>
         <Table
           tableHeaderColor='info'
-          tableHead={['Item', 'Order Type', 'From / To', 'Quantity', 'Delivered On']}
-          tableData={orders.map(order => [
-            order.item,
-            getTransitType(state, order),
-            getTransactionalState(state, order),
-            order.quantity,
-            order.expected_by[0].toLocaleDateString()
-          ])}
+          tableHead={[
+            { title: 'Item', field: 'item' },
+            { title: 'Order Type', field: 'type' },
+            { title: 'From / To', field: 'from_to' },
+            { title: 'Quantity', field: 'quantity' },
+            { title: 'Delivered On', field: 'expected_by' }
+          ]}
+          tableData={orders.map(order => ({
+            ...order,
+            type: getTransitType(state, order),
+            from_to: getTransactionalState(state, order),
+            expected_by: `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`
+          }))}
         />
       </CardBody>
     </Card>
