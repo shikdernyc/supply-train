@@ -65,9 +65,9 @@ export function StateDataProvider({ children }) {
 
   // =============== CONTEXT VALUES ===============
 
-  const setStateCriticalCase = (targetState, newCritCases) => {
+  const setStateCriticalCase = async (targetState, newCritCases) => {
     const prevCases = criticalCases[targetState];
-    setCriticalCases({
+    await setCriticalCases({
       ...criticalCases,
       [targetState]: newCritCases,
     });
