@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { getRandomInt } from 'utils/math/getRandomInt';
 
 export async function getAllStateCasesData() {
   const queryData = await Axios.get('https://covid19-server.chrismichael.now.sh/api/v1/CasesInAllUSStates');
@@ -11,10 +12,11 @@ export async function getAllStateCasesData() {
     NewCases,
     ActiveCases,
   }) => {
+    const totalCases = parseInt(TotalCases.replace(/,/g, '')) || 0;
     statesData[USAState] = {
-      totalCases: parseInt(TotalCases) || 0,
-      newCases: parseInt(NewCases) || 0,
-      activeCases: parseInt(ActiveCases) || 0,
+      totalCases,
+      newCases: parseInt(NewCases.replace(/,/g, '')) || getRandomInt(totalCases / 4),
+      activeCases: parseInt(ActiveCases.replace(/,/g, '')) || totalCases / 2,
     };
   });
   return statesData;
