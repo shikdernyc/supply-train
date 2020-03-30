@@ -509,3 +509,17 @@ footer ul li a:hover {
 * {
   letter-spacing: normal !important;
 }
+
+::-webkit-scrollbar{
+  width: 5px;
+}
+
+::-webkit-scrollbar-track{
+  border-top: 2px solid rgb(46, 48, 48);
+  border-left: 2px solid rgb(46, 48, 48);
+  border-right: 2px solid rgb(46, 48, 48);
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: #808080;
+}
