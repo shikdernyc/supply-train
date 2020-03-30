@@ -3,9 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from 'components/Table';
 import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
-import { orderTypes } from 'constants/order';
 import ActionButton from 'components/ActionButton';
-import { useRecentStateOrders } from 'hooks/useOrders';
+import { useRecentPendingStateOrders } from 'hooks/useOrders';
 import { getTransitType } from 'utils/order/getPerspectiveProps';
 import { getTransactionalState } from 'utils/order/getPerspectiveProps';
 
@@ -41,10 +40,10 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function(props) {
+export default function() {
   const classes = useStyles();
   const state = useCurrentState();
-  const orders = useRecentStateOrders(state, 5);
+  const orders = useRecentPendingStateOrders(state);
 
   return (
     <Card>
@@ -55,16 +54,22 @@ export default function(props) {
       <CardBody>
         <Table
           tableHeaderColor='primary'
-          tableHead={['Item', 'Order Type', 'From / To', 'Quantity', 'Expected By', 'Status', 'Action']}
-          tableData={orders.map(order => [
-            order.item,
-            getTransitType(state, order),
-            getTransactionalState(state, order),
-            order.quantity,
-            `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
-            order.status,
-            <ActionButton order={order} />
-          ])}
+          tableHead={[
+            { title: 'Item', field: 'item' },
+            { title: 'Order Type', field: 'type' },
+            { title: 'From / To', field: 'from_to' },
+            { title: 'Quantity', field: 'quantity' },
+            { title: 'Expected By', field: 'expected_by' },
+            { title: 'Status', field: 'status' },
+            { title: 'Action', field: 'action', sorting: false }
+          ]}
+          tableData={orders.map(order => ({
+            ...order,
+            type: getTransitType(state, order),
+            from_to: getTransactionalState(state, order),
+            expected_by: `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
+            action: <ActionButton order={order} />
+          }))}
         />
       </CardBody>
     </Card>
