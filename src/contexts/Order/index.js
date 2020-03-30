@@ -1,11 +1,11 @@
 import React, { createContext, useState } from 'react';
 import { orderStatuses } from 'constants/order';
-import sample_orders from './sample_orders';
 
 const OrderContext = createContext();
+let currentId = 0;
 
 export function OrderProvider({ children }) {
-  const [allOrders, setAllOrders] = useState(new Map(sample_orders.map((o) => [o.id, o])));
+  const [allOrders, setAllOrders] = useState(new Map());
 
   // SUBSCRIBERS
   const orderSubscribers = new Set([]);
@@ -19,15 +19,27 @@ export function OrderProvider({ children }) {
     Array.from(orderSubscribers).forEach((subscriber) => subscriber(newOrder));
   };
 
-  function addOrder(order) {
-    const id = allOrders.size;
+  async function addOrder(order) {
+    const id = currentId++;
     const orders = new Map(allOrders);
     const newOrder = { ...order };
     newOrder.status = orderStatuses.PENDING_SHIPMENT;
     newOrder.time_created = new Date();
-    orders.set(id, order);
+    orders.set(id, newOrder);
     setAllOrders(orders);
     notifyOrderCreateSubscriber(newOrder);
+  }
+
+  async function addBulkOrders(orderList) {
+    const orders = new Map(allOrders);
+    orderList.forEach((order) => {
+      const newOrder = { ...order };
+      newOrder.status = orderStatuses.PENDING_SHIPMENT;
+      newOrder.time_created = new Date();
+      orders.set(currentId++, newOrder);
+      notifyOrderCreateSubscriber(newOrder);
+    });
+    setAllOrders(orders);
   }
 
   function shipOrder(id) {
@@ -50,6 +62,7 @@ export function OrderProvider({ children }) {
     <OrderContext.Provider
       value={{
         addOrder,
+        addBulkOrders,
         shipOrder,
         confirmReceipt,
         getAllOrders,
