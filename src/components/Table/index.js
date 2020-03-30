@@ -13,7 +13,7 @@ const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
   const classes = useStyles();
-  const { tableHead, tableData, tableHeaderColor, countRows, actions, options } = props;
+  const { tableHead, tableData, tableHeaderColor, countRows, options } = props;
   return (
     <div className={classes.tableContainer}>
       <MaterialTable
