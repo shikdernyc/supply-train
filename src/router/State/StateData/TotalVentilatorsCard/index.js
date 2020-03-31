@@ -6,35 +6,36 @@ import Button from 'components/Button';
 import useInputState from 'hooks/useInputState';
 import DataCard from '../DataCard';
 
-export default function() {
+export default function () {
   const [ventilators, setVentilators] = useCurrentStateVentilators();
 
   const [updatedVentialtors, handleUpdateVentilators] = useInputState(ventilators);
 
   return (
     <DataCard
-      title='Total Ventilators'
+      title="Total Ventilators"
+      infoText="Number of ventilators the state current has available"
       Icon={<Icon>airline_seat_flat</Icon>}
-      color='info'
+      color="info"
       data={ventilators}
-      Input={
+      Input={(
         <Input
-          labelText='Update total ventilators'
-          type='number'
+          labelText="Update total ventilators"
+          type="number"
           value={updatedVentialtors}
           onChange={handleUpdateVentilators}
         />
-      }
-      Button={
+      )}
+      Button={(
         <Button
-          size='sm'
+          size="sm"
           onClick={() => {
             setVentilators(updatedVentialtors);
           }}
         >
           Update
         </Button>
-      }
+      )}
     />
   );
 }

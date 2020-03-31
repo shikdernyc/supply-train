@@ -50,7 +50,7 @@ export default function CurrentOrderTable() {
     <Card>
       <CardHeader color="success">
         <h4 className={classes.cardTitleWhite}>Current Orders</h4>
-        <p className={classes.cardCategoryWhite}>Here is a subtitle for this table</p>
+        <p className={classes.cardCategoryWhite}>Orders that has been made for this state that are currently being processed</p>
       </CardHeader>
       <CardBody>
         <Table

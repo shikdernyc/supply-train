@@ -11,6 +11,7 @@ export default function () {
   return (
     <DataCard
       title={`Projected Critical - ${projectedTimeline} Days`}
+      infoText="Critical Cases we are expecting. This is used to determine weather state needs new shipments"
       Icon={<Icon>airline_seat_flat</Icon>}
       color="danger"
       data={projected}

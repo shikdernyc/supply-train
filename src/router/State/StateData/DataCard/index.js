@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card, { CardHeader, CardIcon, CardFooter } from 'components/Card';
+import Tooltip from '@material-ui/core/Tooltip';
+import HelpIcon from '@material-ui/icons/Help';
 import styles from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 
 const useStyles = makeStyles({
@@ -9,6 +11,11 @@ const useStyles = makeStyles({
     display: 'flex', justifyContent: 'flex-end', width: '100%', height: '80px',
   },
   cardInput: { '& .input': { marginRight: '10px' } },
+  iconRoot: {
+    width: '15px',
+    height: '15px',
+    margin: '0 0 0 10px',
+  },
 });
 
 const AnimatedText = ({ children }) => {
@@ -35,7 +42,13 @@ const AnimatedText = ({ children }) => {
 };
 
 export default function ({
-  title, data, Icon, Input, Button, color,
+  title,
+  data,
+  Icon,
+  Input,
+  Button,
+  color,
+  infoText,
 }) {
   const classes = useStyles();
   return (
@@ -44,6 +57,19 @@ export default function ({
         <CardIcon color={color}>{Icon}</CardIcon>
         <p className={classes.cardCategory}>
           {title}
+          {infoText
+          && (
+          <Tooltip title={infoText} placement="top">
+            <HelpIcon
+              style={{
+                width: '15px',
+                height: '15px',
+                margin: '0 0 0 10px',
+              }}
+              fontSize="small"
+            />
+          </Tooltip>
+          )}
         </p>
 
         <h3 className={classes.cardTitle}>
