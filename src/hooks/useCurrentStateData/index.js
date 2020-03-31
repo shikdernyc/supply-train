@@ -16,6 +16,13 @@ export function useCurrentStateNewCases() {
   return newCases[currentState];
 }
 
+export function useCurrentStateProjectedCritical() {
+  const [currentState] = useCurrentState();
+  const { criticalCaseProjected } = useContext(StateDataContext);
+
+  return criticalCaseProjected[currentState];
+}
+
 export function useCurrentStateActiveCases() {
   const [currentState] = useCurrentState();
   const { activeCases } = useContext(StateDataContext);
@@ -27,7 +34,7 @@ export function useCurrentStateIncomingVentilators() {
   const [currentState] = useCurrentState();
   const { incomingVentilators } = useContext(StateDataContext);
 
-  return incomingVentilators[currentState];
+  return incomingVentilators[currentState] || 0;
 }
 
 export function useCurrentStateCriticalCases() {
