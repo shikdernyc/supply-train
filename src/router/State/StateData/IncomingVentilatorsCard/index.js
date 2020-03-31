@@ -9,6 +9,7 @@ export default function () {
   return (
     <DataCard
       title="IncomingVentilators"
+      infoText="Number of ventilators that are currently coming from other states"
       Icon={<Icon>airline_seat_flat</Icon>}
       color="success"
       data={incomingVentilators}

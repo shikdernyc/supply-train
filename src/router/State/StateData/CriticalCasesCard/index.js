@@ -6,35 +6,36 @@ import Button from 'components/Button';
 import useInputState from 'hooks/useInputState';
 import DataCard from '../DataCard';
 
-export default function() {
+export default function () {
   const [criticalCases, setCriticalCases] = useCurrentStateCriticalCases();
 
   const [updatedCritical, handleUpdatedCriticalChange] = useInputState(criticalCases);
 
   return (
     <DataCard
-      title='Critical Cases'
+      title="Critical Cases"
+      infoText="Critical cases in the state. Updating this would update projected critical and determine weather new orders needs to be made"
       Icon={<Icon>person</Icon>}
-      color='danger'
+      color="danger"
       data={criticalCases}
-      Input={
+      Input={(
         <Input
-          labelText='Update critical cases'
-          type='number'
+          labelText="Update critical cases"
+          type="number"
           value={updatedCritical}
           onChange={handleUpdatedCriticalChange}
         />
-      }
-      Button={
+      )}
+      Button={(
         <Button
-          size='sm'
+          size="sm"
           onClick={() => {
             setCriticalCases(updatedCritical);
           }}
         >
           Update
         </Button>
-      }
+      )}
     />
   );
 }
