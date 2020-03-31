@@ -11,6 +11,7 @@ import { orderItems } from 'constants/order';
 import { getStatesICUBedData } from 'services/database';
 // eslint-disable-next-line
 import useOrderActions from 'hooks/useOrderActions';
+import ReactLoading from 'react-loading'
 import { useAllIncomingOrders } from 'hooks/useOrders';
 
 const stateToKey = {};
@@ -20,6 +21,24 @@ Object.keys(state).forEach((stateKey) => {
   stateToKey[stateName] = stateKey;
   stateList.push(stateName);
 });
+
+function LoadingPage(){
+  return(
+    <div style={{  
+      backgroundColor: "#191A1A",
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      margin: "0 auto",
+      resize: "both",
+
+      }}>
+      <ReactLoading type={"bars"} color={"white"} />
+
+    </div>
+  )
+}
 
 
 async function getInitialData(critToTotal, ventToIcu) {
@@ -258,7 +277,7 @@ export function StateDataProvider({ children }) {
   // =============== RENDER ===============
   return (
     <StateDataContext.Provider value={values}>
-      {loading === true ? (<></>) : children}
+      {loading === true ? (<LoadingPage />) : children}
     </StateDataContext.Provider>
   );
 }
