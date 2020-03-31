@@ -3,11 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Table from 'components/Table';
 import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
-import { orderStatuses } from '../../../../constants/order';
 import ActionButton from 'components/ActionButton';
 import { useStateOrders } from 'hooks/useOrders';
-import { getTransitType } from 'utils/order/getPerspectiveProps';
-import { getTransactionalState } from 'utils/order/getPerspectiveProps';
+import { getTransitType, getTransactionalState } from 'utils/order/getPerspectiveProps';
+
+import { orderStatuses } from '../../../../constants/order';
 
 const styles = {
   cardCategoryWhite: {
@@ -16,11 +16,11 @@ const styles = {
       margin: '0',
       fontSize: '14px',
       marginTop: '0',
-      marginBottom: '0'
+      marginBottom: '0',
     },
     '& a,& a:hover,& a:focus': {
-      color: '#FFFFFF'
-    }
+      color: '#FFFFFF',
+    },
   },
   cardTitleWhite: {
     color: '#FFFFFF',
@@ -34,27 +34,27 @@ const styles = {
       color: '#777',
       fontSize: '65%',
       fontWeight: '400',
-      lineHeight: '1'
-    }
-  }
+      lineHeight: '1',
+    },
+  },
 };
 
 const useStyles = makeStyles(styles);
 
-export default function(props) {
+export default function CurrentOrderTable() {
   const classes = useStyles();
   const state = useCurrentState();
-  const orders = useStateOrders(state).filter(order => order.status !== orderStatuses.COMPLETE);
+  const orders = useStateOrders(state).filter((order) => order.status !== orderStatuses.COMPLETE);
 
   return (
     <Card>
-      <CardHeader color='success'>
+      <CardHeader color="success">
         <h4 className={classes.cardTitleWhite}>Current Orders</h4>
         <p className={classes.cardCategoryWhite}>Here is a subtitle for this table</p>
       </CardHeader>
       <CardBody>
         <Table
-          tableHeaderColor='success'
+          tableHeaderColor="success"
           tableHead={[
             { title: 'Item', field: 'item' },
             { title: 'Order Type', field: 'type' },
@@ -62,14 +62,14 @@ export default function(props) {
             { title: 'Quantity', field: 'quantity' },
             { title: 'Expected By', field: 'expected_by' },
             { title: 'Status', field: 'status' },
-            { title: 'Action', field: 'action', sorting: false }
+            { title: 'Action', field: 'action', sorting: false },
           ]}
-          tableData={orders.map(order => ({
+          tableData={orders.map((order) => ({
             ...order,
             type: getTransitType(state, order),
             from_to: getTransactionalState(state, order),
             expected_by: `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
-            action: <ActionButton order={order} />
+            action: <ActionButton order={order} />,
           }))}
         />
       </CardBody>

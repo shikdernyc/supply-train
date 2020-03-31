@@ -6,7 +6,7 @@ import 'assets/css/material-dashboard-react.css';
 import { SettingsProvider } from 'contexts/Settings';
 import App from './App';
 
-//Importing to update Firestore data
+//  Importing to update Firestore data
 // import './services/database/updateDB';
 
 const hist = createBrowserHistory();
@@ -17,5 +17,5 @@ ReactDOM.render(
       <App />
     </SettingsProvider>
   </Router>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

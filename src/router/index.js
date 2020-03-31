@@ -1,10 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { Route, Switch, Redirect } from 'components/Router';
 import { RouteProvider } from 'contexts/Router';
 import useOnOrderCreate from 'hooks/useOnOrderCreate';
-import { Snackbar } from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
 import state from 'constants/state';
 import Error from './Error';

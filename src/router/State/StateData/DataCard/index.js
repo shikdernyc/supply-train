@@ -28,6 +28,7 @@ const AnimatedText = ({ children }) => {
         clearTimeout(timer);
       };
     }
+    // eslint-disable-next-line
   }, [children]);
 
   return <span className={animating ? 'text-change-fade' : ''}>{message}</span>;

@@ -1,13 +1,14 @@
 import React from 'react';
-import useOrderActions from 'hooks/useOrderActions';
+import useOrderActions, { useConfirmOrderReceipt } from 'hooks/useOrderActions';
 import { orderStatusActions, orderActions } from 'constants/order';
 import Button from 'components/Button';
 import { getTransitType } from 'utils/order/getPerspectiveProps';
 import useCurrentState from 'hooks/useCurrentState';
 
-export default function({ order }) {
+export default function ({ order }) {
   const state = useCurrentState();
-  const { shipOrder, confirmReceipt } = useOrderActions();
+  const { shipOrder } = useOrderActions();
+  const confirmReceipt = useConfirmOrderReceipt();
   const action = orderStatusActions[order.status][getTransitType(state, order)];
 
   if (!action) return null;
@@ -21,7 +22,7 @@ export default function({ order }) {
   }
 
   return (
-    <Button size='sm' color='success' onClick={handleClick}>
+    <Button size="sm" color="success" onClick={handleClick}>
       {action}
     </Button>
   );

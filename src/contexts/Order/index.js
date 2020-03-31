@@ -35,6 +35,7 @@ export function OrderProvider({ children }) {
         });
       };
     }
+    // eslint-disable-next-line
   }, [autoshipOrders]);
 
 

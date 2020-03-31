@@ -1,6 +1,6 @@
-/* eslint-disable no-restricted-syntax */
+/* eslint-disable */
 import React, {
-  createContext, useState, useEffect, useMemo,
+  createContext, useState, useEffect,
 } from 'react';
 import useSettings from 'hooks/useSettings';
 import { getAllStateCasesData } from 'services/covid19';
@@ -166,7 +166,6 @@ export function StateDataProvider({ children }) {
       for (const crit of statesInCritical) {
         // debugger;
         let required = criticalCaseProjected[crit] - (ventilators[crit] + stateIncomingVentilators(crit));
-        console.log(required);
         for (const excessState of updatedExcess) {
           // debugger;
           const excess = currentExcess(excessState);

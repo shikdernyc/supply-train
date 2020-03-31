@@ -523,3 +523,15 @@ footer ul li a:hover {
 ::-webkit-scrollbar-thumb{
   background-color: #808080;
 }
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;} 
+} 
+
+.text-change-fade{
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}

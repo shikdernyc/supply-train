@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useRef } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
@@ -14,6 +14,7 @@ import {Link, useRouteMatch} from 'react-router-dom'
 // core components
 import AdminNavbarLinks from "components/Navbars/DashboardNavbarLinks";
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle";
+import { useEffect } from "react";
 
 const useStyles = makeStyles(styles);
 
@@ -23,6 +24,16 @@ const SidebarLink = ({
   isActive,
   onClick
 }) =>{
+  const myRef = useRef(null)
+
+  useEffect(()=>{
+    if(isActive){
+      myRef.current.scrollIntoView({
+        behavior: "smooth"
+      })
+    }
+  }, [isActive])
+
   const classes = useStyles()
   const listItemClasses = classNames({
     [" " + classes[color]]: isActive
@@ -38,6 +49,7 @@ const SidebarLink = ({
   return (
     <a
       href="#"
+      ref={myRef}
       className={linkClasses}
       onClick={(e)=>{
         e.preventDefault()
@@ -53,7 +65,6 @@ const SidebarLink = ({
       </ListItem>
     </a>
   )
-
 }
 
 export default function Sidebar(props) {
