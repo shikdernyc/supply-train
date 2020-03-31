@@ -5,8 +5,8 @@ import Card, { CardHeader, CardBody } from 'components/Card';
 import useCurrentState from 'hooks/useCurrentState';
 import ActionButton from 'components/ActionButton';
 import { useRecentPendingStateOrders } from 'hooks/useOrders';
-import { getTransitType } from 'utils/order/getPerspectiveProps';
-import { getTransactionalState } from 'utils/order/getPerspectiveProps';
+import { getTransitType, getTransactionalState } from 'utils/order/getPerspectiveProps';
+
 
 const styles = {
   cardCategoryWhite: {
@@ -15,11 +15,11 @@ const styles = {
       margin: '0',
       fontSize: '14px',
       marginTop: '0',
-      marginBottom: '0'
+      marginBottom: '0',
     },
     '& a,& a:hover,& a:focus': {
-      color: '#FFFFFF'
-    }
+      color: '#FFFFFF',
+    },
   },
   cardTitleWhite: {
     color: '#FFFFFF',
@@ -33,27 +33,27 @@ const styles = {
       color: '#777',
       fontSize: '65%',
       fontWeight: '400',
-      lineHeight: '1'
-    }
-  }
+      lineHeight: '1',
+    },
+  },
 };
 
 const useStyles = makeStyles(styles);
 
-export default function() {
+export default function () {
   const classes = useStyles();
   const state = useCurrentState();
   const orders = useRecentPendingStateOrders(state);
 
   return (
     <Card>
-      <CardHeader color='primary'>
+      <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Pending Actions</h4>
         <p className={classes.cardCategoryWhite}>These items need your attention</p>
       </CardHeader>
       <CardBody>
         <Table
-          tableHeaderColor='primary'
+          tableHeaderColor="primary"
           tableHead={[
             { title: 'Item', field: 'item' },
             { title: 'Order Type', field: 'type' },
@@ -61,14 +61,14 @@ export default function() {
             { title: 'Quantity', field: 'quantity' },
             { title: 'Expected By', field: 'expected_by' },
             { title: 'Status', field: 'status' },
-            { title: 'Action', field: 'action', sorting: false }
+            { title: 'Action', field: 'action', sorting: false },
           ]}
-          tableData={orders.map(order => ({
+          tableData={orders.map((order) => ({
             ...order,
             type: getTransitType(state, order),
             from_to: getTransactionalState(state, order),
             expected_by: `${order.expected_by[0].toLocaleDateString()} (${order.expected_by[1]} sec)`,
-            action: <ActionButton order={order} />
+            action: <ActionButton order={order} />,
           }))}
         />
       </CardBody>

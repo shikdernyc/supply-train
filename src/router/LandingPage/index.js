@@ -6,6 +6,7 @@ import { Grid } from '@material-ui/core';
 import state, { STATE_LOCATION } from 'constants/state';
 import { APP_DISPLAY_NAME } from 'constants/app';
 import Sidebar from './Sidebar';
+import RecentOrders from './RecentOrders';
 
 import StateMap from './StateMap';
 
@@ -15,7 +16,8 @@ const useStyles = makeStyles((theme) => {
     ...preStyles,
     mainPanel: {
       ...preStyles.mainPanel,
-      minHeight: '100%',
+      overflow: 'hidden',
+      // minHeight: '100%',
     },
     content: {
       marginTop: 0,
@@ -76,9 +78,7 @@ function LandingPage() {
             </Grid> */}
           </Grid>
           <Grid item style={{ height: '25vh', backgroundColor: 'gray' }}>
-            <div>
-              <h1>Recent Orders</h1>
-            </div>
+            <RecentOrders />
           </Grid>
         </Grid>
       </div>

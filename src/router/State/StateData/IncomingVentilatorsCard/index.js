@@ -3,14 +3,14 @@ import Icon from '@material-ui/core/Icon';
 import { useCurrentStateIncomingVentilators } from 'hooks/useCurrentStateData';
 import DataCard from '../DataCard';
 
-export default function() {
+export default function () {
   const incomingVentilators = useCurrentStateIncomingVentilators();
 
   return (
     <DataCard
-      title='IncomingVentilators'
+      title="IncomingVentilators"
       Icon={<Icon>airline_seat_flat</Icon>}
-      color='success'
+      color="success"
       data={incomingVentilators}
     />
   );

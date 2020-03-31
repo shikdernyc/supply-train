@@ -37,7 +37,7 @@ function DashboardRouter({
             path={`${url}/orders`}
             component={Orders}
           />
-          <Redirect from={`${url}`} to={`${url}/orders`} />
+          <Redirect from={`${url}`} to={`${url}/overview`} />
         </Switch>
       </DashboardLayout>
     </CurrentStateProvider>

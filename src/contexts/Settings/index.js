@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 const SettingsContext = createContext();
 
 const defaultSettings = {
-  ventilatorToIcuPercentage: 0.3,
+  ventilatorToIcuPercentage: [0.2, 0.5], // 30 - 50 percentage
   shipmentDelayInSec: 20,
-  criticalToTotalPercentage: 0.1,
-  projectedTimeline: 2,
+  criticalToTotalPercentage: [0.05, 0.1], // 3 - 5 percent
+  projectedTimeline: 7,
 };
 
 export function SettingsProvider({ children }) {
