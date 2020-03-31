@@ -36,7 +36,7 @@ const PinInfo = ({
       </p>
       <p>
         Incoming Ventilators:
-        {incomingVentilators}
+        {incomingVentilators || 0}
       </p>
       <Button
         color="info"
