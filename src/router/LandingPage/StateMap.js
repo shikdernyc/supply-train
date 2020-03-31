@@ -6,6 +6,34 @@ import useStateData from 'hooks/useStateData';
 import Button from 'components/Button';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { makeStyles, Grid } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  stateDataTitle: {
+    textAlign: 'left',
+  },
+  stateDataCount: {
+    textAlign: 'right',
+  },
+});
+
+const StateData = ({ title, count }) => {
+  const classes = useStyles();
+  return (
+    <>
+      <Grid item xs={8}>
+        <p className={classes.stateDataTitle}>
+          {title}
+        </p>
+      </Grid>
+      <Grid item xs={4}>
+        <p className={classes.stateDataCount}>
+          {count}
+        </p>
+      </Grid>
+    </>
+  );
+};
 
 const PinInfo = ({
   stateKey,
@@ -20,32 +48,28 @@ const PinInfo = ({
   const history = useHistory();
 
   return (
-    <div>
-      <h3>{stateName}</h3>
-      <p>
-        Total Cases:
-        {totalCases}
-      </p>
-      <p>
-        Critical Cases:
-        {criticalCases}
-      </p>
-      <p>
-        Ventilators:
-        {ventilators}
-      </p>
-      <p>
-        Incoming Ventilators:
-        {incomingVentilators || 0}
-      </p>
-      <Button
-        color="info"
-        onClick={() => {
-          history.push(`/state/${stateKey}`);
-        }}
-      >
-        More Info
-      </Button>
+  // <div style={{}}>
+    <div style={{ maxWidth: '250px' }}>
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          <h3 style={{ textAlign: 'right' }}>{stateName}</h3>
+        </Grid>
+        <StateData title="Total Cases" count={totalCases} />
+        <StateData title="Critical Cases" count={criticalCases} />
+        <StateData title="Total Ventilators" count={ventilators} />
+        <StateData title="Incoming Ventilators" count={incomingVentilators || 0} />
+        <Grid item xs={12}>
+          <Button
+            fullWidth
+            color="info"
+            onClick={() => {
+              history.push(`/state/${stateKey}`);
+            }}
+          >
+            More Info
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };
@@ -64,8 +88,8 @@ function StateMap({
     const pinInfo = stateInfo[activeStateKey];
     return ((
       <Popup
-        tipSize={5}
-        anchor="top"
+        // tipSize={5}
+        anchor="top-left"
         longitude={pinInfo.longitude}
         latitude={pinInfo.latitude}
         closeOnClick={false}
