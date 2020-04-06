@@ -1,16 +1,18 @@
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
+// TODO: PUT IT IN A CREDENTIAL/SECRET FOLDER
 const config = {
-  apiKey: 'AIzaSyCdx_CyhqGPoNhGbUhdgYOIxnJqHxlEI8Q',
-  authDomain: 'supply-train.firebaseapp.com',
-  databaseURL: 'https://supply-train.firebaseio.com',
-  projectId: 'supply-train',
-  storageBucket: 'supply-train.appspot.com',
-  messagingSenderId: '902532755397',
-  appId: '1:902532755397:web:86fc9da3077fc9e2be25ac'
+  apiKey: 'abc123',
+  authDomain: 'abc123',
+  databaseURL: 'abc123',
+  projectId: 'abc123',
+  storageBucket: 'abc123',
+  messagingSenderId: 'abc132',
+  appId: 'abc123'
 };
 
 const app = firebase.initializeApp(config);
 
 export const firestore = app.firestore();
+,
